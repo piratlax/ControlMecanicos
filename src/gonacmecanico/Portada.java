@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import logica.Conector;
 
 public class Portada extends javax.swing.JFrame {
@@ -15,9 +16,12 @@ public class Portada extends javax.swing.JFrame {
     Connection cn = con.conecta();
     String categoria="categoria";
     String usuario="nombre";
+   
     public Portada() {
         initComponents();
         this.setLocationRelativeTo(null);
+        //se establece el boton defaulta
+        SwingUtilities.getRootPane(btnEntrar).setDefaultButton(btnEntrar);
 
     }
 
@@ -32,7 +36,7 @@ public class Portada extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtClave = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        btnEntrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Control de Camiones GONAC");
@@ -47,10 +51,10 @@ public class Portada extends javax.swing.JFrame {
 
         jLabel3.setText("Clave");
 
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEntrar.setText("Entrar");
+        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEntrarActionPerformed(evt);
             }
         });
 
@@ -70,7 +74,7 @@ public class Portada extends javax.swing.JFrame {
                     .addComponent(txtClave)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnEntrar)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -85,7 +89,7 @@ public class Portada extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnEntrar)
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
@@ -130,7 +134,8 @@ public class Portada extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+        
         if (txtUsuario.getText().equals("") || txtClave.getText().equals("")){
         JOptionPane.showMessageDialog(this, "Rellena los campos por favor");
             txtUsuario.requestFocus();            
@@ -179,7 +184,7 @@ public class Portada extends javax.swing.JFrame {
         }
             
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEntrarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -214,7 +219,7 @@ public class Portada extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
