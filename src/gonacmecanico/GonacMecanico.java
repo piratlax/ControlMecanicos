@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import logica.Conector;
+import logica.Utilerias;
 
 
 public class GonacMecanico {
@@ -20,19 +21,21 @@ public class GonacMecanico {
                 
                 // Agrego el aspecto de buscando a nemo (ay que bonito :D )
                 SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
-                // agrego la combinacion de colores de Aqua
-                //SubstanceLookAndFeel.setCurrentTheme("org.jvnet.substance.theme.SubstanceBottleGreenTheme");
-                //Le pongo un fondo de burbujitas, para darle un toque del sistema de agua :)
-                //SubstanceLookAndFeel.setCurrentWatermark("org.jvnet.substance.watermark.SubstanceFabricWatermark");
+                
             }              
             catch(Exception e){
             } 
-            Conector con = new Conector();
+            Utilerias frm=new Utilerias();
+            frm.darNumeroServicio();
+            
+            /*Conector con = new Conector();
             con.conecta();
 
-            Portada frm = new Portada();
-            //frm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            
+            /*Portada frm = new Portada();
+            
             frm.setVisible(true);
+            */
         }
         });          
     }
