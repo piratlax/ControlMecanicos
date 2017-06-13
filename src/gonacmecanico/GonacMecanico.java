@@ -19,23 +19,16 @@ public class GonacMecanico {
                 // Se llama a la libreria de aspecto Substance
                 JFrame.setDefaultLookAndFeelDecorated(true);
                 
-                // Agrego el aspecto de buscando a nemo (ay que bonito :D )
+                
                 SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
                 
             }              
             catch(Exception e){
             } 
-            Utilerias frm=new Utilerias();
-            frm.darNumeroServicio();
             
-            /*Conector con = new Conector();
-            con.conecta();
-
-            
-            /*Portada frm = new Portada();
-            
+            Portada frm = new Portada();
             frm.setVisible(true);
-            */
+            
         }
         });          
     }

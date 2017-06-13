@@ -29,6 +29,7 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnuUsuarios = new javax.swing.JMenuItem();
@@ -49,8 +50,12 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Jefe de Mecanica");
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/pie.png"))); // NOI18N
+
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/sistema.png"))); // NOI18N
         jMenu1.setText("Sistema");
 
+        mnuUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/usuarios.png"))); // NOI18N
         mnuUsuarios.setText("Usuarios");
         mnuUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,6 +64,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(mnuUsuarios);
 
+        mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/salir.png"))); // NOI18N
         mnuSalir.setText("Salir del sistema");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,8 +75,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/mecanicos.png"))); // NOI18N
         jMenu2.setText("Mecanicos");
 
+        mnuAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/personal.png"))); // NOI18N
         mnuAlta.setText("Administración");
         mnuAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,8 +89,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/camion.png"))); // NOI18N
         jMenu3.setText("Vehículos");
 
+        mnuCamAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/gestionCam.png"))); // NOI18N
         mnuCamAlta.setText("Administración");
         mnuCamAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,8 +103,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/estados.png"))); // NOI18N
         jMenu4.setText("Estados");
 
+        mnuGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/generar.png"))); // NOI18N
         mnuGenerar.setText("Generar");
         mnuGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +117,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        mnuReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/Sin nombre.png"))); // NOI18N
         mnuReportes.setText("Reportes");
 
         jMenuItem2.setText("General");
@@ -140,11 +153,15 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 578, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 386, Short.MAX_VALUE)
+                .addComponent(jLabel1))
         );
 
         pack();
@@ -222,6 +239,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
