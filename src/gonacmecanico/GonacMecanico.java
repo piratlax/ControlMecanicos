@@ -29,6 +29,7 @@ public class GonacMecanico {
             Portada frm = new Portada();
             frm.setVisible(true);
             
+            
         }
         });          
     }
