@@ -40,6 +40,9 @@ public class Principal extends javax.swing.JFrame {
         mnuCamAlta = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         mnuGenerar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -114,6 +117,18 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(mnuGenerar);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/pendientes.png"))); // NOI18N
+        jMenuItem1.setText("Pendientes");
+        jMenu4.add(jMenuItem1);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/progreso.png"))); // NOI18N
+        jMenuItem7.setText("Progresos");
+        jMenu4.add(jMenuItem7);
+
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/terminados.png"))); // NOI18N
+        jMenuItem8.setText("Terminados");
+        jMenu4.add(jMenuItem8);
 
         jMenuBar1.add(jMenu4);
 
@@ -245,11 +260,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem mnuAlta;
     private javax.swing.JMenuItem mnuCamAlta;
     private javax.swing.JMenuItem mnuGenerar;
