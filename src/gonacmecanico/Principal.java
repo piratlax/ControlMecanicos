@@ -111,6 +111,7 @@ public class Principal extends javax.swing.JFrame {
 
         mnuGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/generar.png"))); // NOI18N
         mnuGenerar.setText("Generar");
+        mnuGenerar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         mnuGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuGenerarActionPerformed(evt);
@@ -120,14 +121,17 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/pendientes.png"))); // NOI18N
         jMenuItem1.setText("Pendientes");
+        jMenuItem1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jMenu4.add(jMenuItem1);
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/progreso.png"))); // NOI18N
         jMenuItem7.setText("Progresos");
+        jMenuItem7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jMenu4.add(jMenuItem7);
 
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/grafico/terminados.png"))); // NOI18N
         jMenuItem8.setText("Terminados");
+        jMenuItem8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jMenu4.add(jMenuItem8);
 
         jMenuBar1.add(jMenu4);
