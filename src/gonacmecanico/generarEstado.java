@@ -6,10 +6,14 @@
 package gonacmecanico;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -157,6 +161,8 @@ modeloCombo.addElement(ver.getString("completo"));
         jLabel7.setText("Asignar Unidad:");
 
         jLabel8.setText("Fecha de Entrega");
+
+        jdFecha.setDateFormatString("dd-MM-yy");
 
         jLabel9.setText("Hora de Entrega");
 
@@ -398,7 +404,7 @@ modeloCombo.addElement(ver.getString("completo"));
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -430,6 +436,7 @@ modeloCombo.addElement(ver.getString("completo"));
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
+        txtUnidad.setText(txtUnidad.getText().toUpperCase());
         //iniciemos
         if (txtUnidad.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Te falta colocar la unidad");
@@ -437,7 +444,7 @@ modeloCombo.addElement(ver.getString("completo"));
         }else if (jdFecha.getDate()==null){
             JOptionPane.showMessageDialog(this, "Te falta colocar la fecha");
             
-        }
+        }else{
         //verificamos que exista la unidad
         boolean existeUnidad=false;
         try {
@@ -457,16 +464,53 @@ modeloCombo.addElement(ver.getString("completo"));
         }else{
             //se inicia el proceso
             if (jcPreventivo.getSelectedItem().equals("Ninguno")){
+                String formato=jdFecha.getDateFormatString();
+                Date date=jdFecha.getDate();
+                SimpleDateFormat sdf= new SimpleDateFormat(formato);
+                
                 String mensaje="se va a crear el siguiente servicio\n"+
                         "Servicio No."+txtServicio.getText()+" tipo: "+jcServicio.getSelectedItem()+"\n"+
                         "con tipo de reparacion:  "+jcReparacion.getSelectedItem()+"\n"+
                         "Encargado al mecanico principal\n"+jcMecanico.getSelectedItem()+"\n"+
                         "para la unidad "+txtUnidad.getText()+" a entregar\n"+
-                        jdFecha.getDate()+" a las "+jcHora.getSelectedItem()+":"+jcMinuto.getSelectedItem();
+                        String.valueOf(sdf.format(date))+" a las "+jcHora.getSelectedItem()+":"+jcMinuto.getSelectedItem()+
+                        " en la bahia "+jcBahia.getSelectedItem();
                 int respuesta=JOptionPane.showConfirmDialog(this, mensaje, "Atencion", 0);
                 System.out.println (respuesta);
+                if (respuesta==0){
+                    //procedemos a crear el servicio
+                    //añadimos campos
+                    String numero=txtServicio.getText();
+                    String servicio=jcServicio.getSelectedItem().toString();
+                    String reparacion=jcReparacion.getSelectedItem().toString();
+                    String bahia=jcBahia.getSelectedItem().toString();
+                    String mecanico=jcMecanico.getSelectedItem().toString();
+                    String fecha="fecha";
+                    //LocalDate fecha=LocalDate.now();
+                    String unidad=txtUnidad.getText();
+                    String hora=jcHora.getSelectedItem().toString()+":"+jcMinuto.getSelectedItem().toString();
+                    try {
+                        String sql="INSERT INTO servicio (servicio,tipo_servicio,reparacion,mecanico,principal,unidad,fecha_entrega,hora_entrega,bahia) "+
+                                "VALUES (?,?,?,?,?,?,?,?,?)";
+                        PreparedStatement ps=cn.prepareStatement(sql);
+                        ps.setString(1,numero);
+                        ps.setString(2,servicio);
+                        ps.setString(3,reparacion);
+                        ps.setString(4,mecanico);
+                        ps.setString(5,"1");
+                        ps.setString(6,unidad);
+                        ps.setString(7,fecha);
+                        //ps.setObject(7,fecha);
+                        ps.setString(8,hora);
+                        ps.setString(9,bahia);
+                        ps.executeUpdate();
+                        System.out.println ("integrado en la bd");
+                    } catch (SQLException e) {
+                    }
+                }
             }
             
+        }
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
     private void auxiliarOff(){
