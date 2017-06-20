@@ -478,6 +478,7 @@ modeloCombo.addElement(ver.getString("completo"));
                 int respuesta=JOptionPane.showConfirmDialog(this, mensaje, "Atencion", 0);
                 System.out.println (respuesta);
                 if (respuesta==0){
+                    System.out.println ("iniciamos");
                     //procedemos a crear el servicio
                     //añadimos campos
                     String numero=txtServicio.getText();
@@ -485,10 +486,14 @@ modeloCombo.addElement(ver.getString("completo"));
                     String reparacion=jcReparacion.getSelectedItem().toString();
                     String bahia=jcBahia.getSelectedItem().toString();
                     String mecanico=jcMecanico.getSelectedItem().toString();
-                    String fecha="fecha";
-                    //LocalDate fecha=LocalDate.now();
+                    Date fecha=jdFecha.getDate();
+                    SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd"); 
+                    Date_Format.format(jdFecha.getDate());
                     String unidad=txtUnidad.getText();
                     String hora=jcHora.getSelectedItem().toString()+":"+jcMinuto.getSelectedItem().toString();
+                    //System.out.println (numero,servicio,reparacion,mecanico,unidad,fecha_entreja.hora_entrega.bahia);
+                    
+                    
                     try {
                         String sql="INSERT INTO servicio (servicio,tipo_servicio,reparacion,mecanico,principal,unidad,fecha_entrega,hora_entrega,bahia) "+
                                 "VALUES (?,?,?,?,?,?,?,?,?)";
@@ -497,15 +502,16 @@ modeloCombo.addElement(ver.getString("completo"));
                         ps.setString(2,servicio);
                         ps.setString(3,reparacion);
                         ps.setString(4,mecanico);
-                        ps.setString(5,"1");
+                        ps.setBoolean(5,true);
                         ps.setString(6,unidad);
-                        ps.setString(7,fecha);
-                        //ps.setObject(7,fecha);
+                        //ps.setString(7,fecha);
+                        ps.setDate(7, new java.sql.Date(fecha.getTime()));
                         ps.setString(8,hora);
                         ps.setString(9,bahia);
                         ps.executeUpdate();
                         System.out.println ("integrado en la bd");
                     } catch (SQLException e) {
+                         Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, e);
                     }
                 }
             }
