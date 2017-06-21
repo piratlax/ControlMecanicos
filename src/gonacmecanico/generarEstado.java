@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -126,7 +125,7 @@ modeloCombo.addElement(ver.getString("completo"));
         btnAgregar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -295,6 +294,11 @@ modeloCombo.addElement(ver.getString("completo"));
         jcAuxiliar.setModel(modeloCombo);
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -322,7 +326,7 @@ modeloCombo.addElement(ver.getString("completo"));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Servicio"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -333,7 +337,7 @@ modeloCombo.addElement(ver.getString("completo"));
                 "Servicio", "Unidad", "Reparacion", "Mecanico", "Bahia"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -491,8 +495,6 @@ modeloCombo.addElement(ver.getString("completo"));
                     Date_Format.format(jdFecha.getDate());
                     String unidad=txtUnidad.getText();
                     String hora=jcHora.getSelectedItem().toString()+":"+jcMinuto.getSelectedItem().toString();
-                    //System.out.println (numero,servicio,reparacion,mecanico,unidad,fecha_entreja.hora_entrega.bahia);
-                    
                     
                     try {
                         String sql="INSERT INTO servicio (servicio,tipo_servicio,reparacion,mecanico,principal,unidad,fecha_entrega,hora_entrega,bahia) "+
@@ -504,12 +506,14 @@ modeloCombo.addElement(ver.getString("completo"));
                         ps.setString(4,mecanico);
                         ps.setBoolean(5,true);
                         ps.setString(6,unidad);
-                        //ps.setString(7,fecha);
                         ps.setDate(7, new java.sql.Date(fecha.getTime()));
                         ps.setString(8,hora);
                         ps.setString(9,bahia);
                         ps.executeUpdate();
                         System.out.println ("integrado en la bd");
+                        auxiliarOn();
+                        mostrarTabla();
+                        btnGenerar.setEnabled(false);
                     } catch (SQLException e) {
                          Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, e);
                     }
@@ -519,10 +523,76 @@ modeloCombo.addElement(ver.getString("completo"));
         }
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+                    String numero=txtServicio.getText();
+                    
+                    String mecanico=jcMecanico.getSelectedItem().toString();
+                    
+                    
+                    try {
+                        String sql="INSERT INTO servicio (servicio,mecanico,principal) "+
+                                "VALUES (?,?,?)";
+                        PreparedStatement ps=cn.prepareStatement(sql);
+                        ps.setString(1,numero);
+                        
+                        ps.setString(2,mecanico);
+                        ps.setBoolean(3,false);
+                        ps.executeUpdate();
+                        System.out.println ("integrado en la bd");
+                        
+                        mostrarTabla();
+                        
+                    } catch (SQLException e) {
+                         Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                
+            
+    }//GEN-LAST:event_btnAgregarActionPerformed
     private void auxiliarOff(){
         txtAuxiliar.setEnabled(false);
         btnAgregar.setEnabled(false);
         jcAuxiliar.setEnabled(false);
+    }
+    private void mostrarTabla(){
+        String[] cabecera = {"Id", "Servicio", "Unidad", "Reparacion", "Mecanico","Bahia"};
+        String[] registros = new String[6];
+        String sql = "SELECT * FROM servicio WHERE servicio ='"+txtServicio.getText()+"'";
+        //establecemos los anchos en pixeles de las columnas
+        int[] anchos = {0, 120, 120, 200, 300, 80};
+
+        modelo = new DefaultTableModel(null, cabecera);
+        try {
+
+            Statement table;
+            table = cn.createStatement();
+            ResultSet rs = table.executeQuery(sql);
+            while (rs.next()) {
+                registros[0] = rs.getString("id");
+                registros[1] = rs.getString("servicio");
+                registros[2] = rs.getString("unidad");
+                registros[3] = rs.getString("reparacion");
+                registros[4] = rs.getString("mecanico");
+                registros[5] = rs.getString("bahia");
+                modelo.addRow(registros);
+
+            }
+            tabla.setModel(modelo);
+            for (int i = 0; i < cabecera.length; i++) {
+                tabla.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+                tabla.setFont(new java.awt.Font("Tahoma", 0, 12));
+            }
+            tabla.getColumnModel().getColumn(0).setMaxWidth(0);
+        tabla.getColumnModel().getColumn(0).setMinWidth(0);
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(0);
+        } catch (SQLException ex) {
+            System.out.println("Sin poder ejecutar el query a la tabla");
+        }
+    }
+    private void auxiliarOn(){
+        txtAuxiliar.setEnabled(true);
+        btnAgregar.setEnabled(true);
+        jcAuxiliar.setEnabled(true);
     }
     /**
      * @param args the command line arguments
@@ -583,7 +653,6 @@ modeloCombo.addElement(ver.getString("completo"));
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> jcAuxiliar;
     private javax.swing.JComboBox<String> jcBahia;
     private javax.swing.JComboBox<String> jcHora;
@@ -593,6 +662,7 @@ modeloCombo.addElement(ver.getString("completo"));
     private javax.swing.JComboBox<String> jcReparacion;
     private javax.swing.JComboBox<String> jcServicio;
     private com.toedter.calendar.JDateChooser jdFecha;
+    private javax.swing.JTable tabla;
     private javax.swing.JLabel txtAuxiliar;
     private javax.swing.JLabel txtHora;
     private javax.swing.JLabel txtServicio;
