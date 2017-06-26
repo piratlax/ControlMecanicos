@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,8 +40,10 @@ public class generarEstado extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         llenaComboBox();
         Utilerias util=new Utilerias();
-        txtServicio.setText(util.darNumeroServicio());
-        
+        txtServicio.setText("170652");
+        mostrarTabla();
+        //txtServicio.setText(util.darNumeroServicio());
+     
         //mostramos la hora
         Calendar calendario = Calendar.getInstance();
         int hora, minutos, segundos;
@@ -48,6 +51,7 @@ public class generarEstado extends javax.swing.JFrame {
         minutos = calendario.get(Calendar.MINUTE);
         txtHora.setText(hora+":"+minutos);
         auxiliarOff();
+        txtId.setVisible(false);
     }
     
     private void llenaComboBox(){
@@ -119,6 +123,7 @@ modeloCombo.addElement(ver.getString("completo"));
         jLabel12 = new javax.swing.JLabel();
         txtHora = new javax.swing.JLabel();
         txtUnidad = new javax.swing.JTextField();
+        txtId = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtAuxiliar = new javax.swing.JLabel();
         jcAuxiliar = new javax.swing.JComboBox<>();
@@ -127,7 +132,7 @@ modeloCombo.addElement(ver.getString("completo"));
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -143,7 +148,7 @@ modeloCombo.addElement(ver.getString("completo"));
 
         jLabel3.setText("Generar servicio:");
 
-        jcServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Predictivo", "Daño Operativo" }));
+        jcServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preventivo", "Predictivo", "Daño Operativo" }));
 
         jLabel4.setText("Tipo de reparación");
 
@@ -184,7 +189,10 @@ modeloCombo.addElement(ver.getString("completo"));
 
         jLabel12.setText("Hora de entrada:");
 
+        txtHora.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         txtHora.setText("__");
+
+        txtId.setText("id");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,32 +201,34 @@ modeloCombo.addElement(ver.getString("completo"));
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel1))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtServicio)
+                                .addComponent(jcPreventivo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtHora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jcServicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcReparacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6)
+                    .addComponent(jcMecanico, 0, 185, Short.MAX_VALUE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtUnidad))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel1))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtServicio)
-                                    .addComponent(jcPreventivo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtHora)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jcServicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jcReparacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6)
-                            .addComponent(jcMecanico, 0, 185, Short.MAX_VALUE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtUnidad))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
@@ -234,16 +244,16 @@ modeloCombo.addElement(ver.getString("completo"));
                                                 .addComponent(jLabel10)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jcMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel9))
+                                            .addComponent(jLabel9)
+                                            .addComponent(txtId))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel11)
                                             .addComponent(jcBahia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jdFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(457, 457, 457)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(209, 209, 209)
                         .addComponent(btnGenerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -284,7 +294,8 @@ modeloCombo.addElement(ver.getString("completo"));
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGenerar)
                     .addComponent(jLabel12)
-                    .addComponent(txtHora)))
+                    .addComponent(txtHora)
+                    .addComponent(txtId)))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Auxiliares"));
@@ -358,7 +369,12 @@ modeloCombo.addElement(ver.getString("completo"));
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Editar servicio"));
 
-        jButton3.setText("Editar");
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Borrar elemento");
 
@@ -379,23 +395,23 @@ modeloCombo.addElement(ver.getString("completo"));
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
                 .addGap(18, 18, 18)
                 .addComponent(jButton6)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(btnEditar)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jButton6)
@@ -513,6 +529,7 @@ modeloCombo.addElement(ver.getString("completo"));
                         System.out.println ("integrado en la bd");
                         auxiliarOn();
                         mostrarTabla();
+                        desactivarPrincipal();
                         btnGenerar.setEnabled(false);
                     } catch (SQLException e) {
                          Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, e);
@@ -523,7 +540,17 @@ modeloCombo.addElement(ver.getString("completo"));
         }
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
-
+    private void desactivarPrincipal(){
+        jcPreventivo.setEnabled(false);
+        jcBahia.setEnabled(false);
+        jcHora.setEnabled(false);
+        jcMinuto.setEnabled(false);
+        jcReparacion.setEnabled(false);
+        jcServicio.setEnabled(false);
+        jdFecha.setEnabled(false);
+        txtUnidad.setEnabled(false);
+        jcMecanico.setEnabled(false);
+    }
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
                     String numero=txtServicio.getText();
                     
@@ -549,6 +576,72 @@ modeloCombo.addElement(ver.getString("completo"));
                 
             
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       if (btnEditar.getText().equals("Editar")){
+        int fila=tabla.getSelectedRow();
+        
+       if (fila>0){
+          btnEditar.setText("Actualizar");
+          btnGenerar.setEnabled(false);
+          auxiliarOn();
+          String buscarProducto;
+          buscarProducto = tabla.getValueAt(fila,1).toString();
+          
+          try{
+              Statement buscar=cn.createStatement();
+              String sql=("SELECT * FROM servicio WHERE servicio='"+buscarProducto+"' and principal=1");
+              ResultSet resultado= buscar.executeQuery(sql);
+              
+              while (resultado.next()){
+                 txtId.setText(resultado.getString("id")); 
+                 txtServicio.setText(resultado.getString("servicio")); 
+                 jcServicio.setSelectedItem(resultado.getString("tipo_servicio")); 
+                 jcReparacion.setSelectedItem(resultado.getString("reparacion")); 
+                 jcMecanico.setSelectedItem(resultado.getString("mecanico")); 
+                 jcBahia.setSelectedItem(resultado.getString("bahia")); 
+                 txtUnidad.setText(resultado.getString("unidad"));
+                 txtHora.setText(resultado.getString("hora_entrada"));
+                 String valorFecha = resultado.getString("fecha_entrega"); // What ever column
+                 
+                java.util.Date date;
+                  try {
+                      date = new SimpleDateFormat("yyyy-MM-dd").parse(valorFecha);
+                      jdFecha.setDate(date);
+                  } catch (ParseException ex) {
+                      Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+
+                
+                 
+                // obtenemos la hora de entrega
+                 String hora=resultado.getString("hora_entrega");
+                 char hora1=hora.charAt(0);
+                 char hora2=hora.charAt(1);
+                 String horauno=String.valueOf(hora1);
+                 String horados=String.valueOf(hora2);
+                 String Hora=horauno+horados;
+                 
+                 char min1=hora.charAt(3);
+                 char min2=hora.charAt(4);
+                 String minuno=String.valueOf(min1);
+                 String mindos=String.valueOf(min2);
+                 String minuto=minuno+mindos;
+                 
+                 jcHora.setSelectedItem(Hora);
+                 jcMinuto.setSelectedItem(minuto);
+                 
+              }
+          } catch (SQLException ex) {
+               Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       }else {
+           System.out.println ("Actualizamos");
+       }    
+        
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
     private void auxiliarOff(){
         txtAuxiliar.setEnabled(false);
         btnAgregar.setEnabled(false);
@@ -631,8 +724,8 @@ modeloCombo.addElement(ver.getString("completo"));
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGenerar;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -665,6 +758,7 @@ modeloCombo.addElement(ver.getString("completo"));
     private javax.swing.JTable tabla;
     private javax.swing.JLabel txtAuxiliar;
     private javax.swing.JLabel txtHora;
+    private javax.swing.JLabel txtId;
     private javax.swing.JLabel txtServicio;
     private javax.swing.JTextField txtUnidad;
     // End of variables declaration//GEN-END:variables
