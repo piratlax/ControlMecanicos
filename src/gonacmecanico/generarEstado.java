@@ -40,9 +40,9 @@ public class generarEstado extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         llenaComboBox();
         Utilerias util=new Utilerias();
-        txtServicio.setText("170652");
+        //txtServicio.setText("170652");
         mostrarTabla();
-        //txtServicio.setText(util.darNumeroServicio());
+        txtServicio.setText(util.darNumeroServicio());
      
         //mostramos la hora
         Calendar calendario = Calendar.getInstance();
@@ -551,6 +551,17 @@ modeloCombo.addElement(ver.getString("completo"));
         txtUnidad.setEnabled(false);
         jcMecanico.setEnabled(false);
     }
+    private void activarPrincipal(){
+        jcPreventivo.setEnabled(true);
+        jcBahia.setEnabled(true);
+        jcHora.setEnabled(true);
+        jcMinuto.setEnabled(true);
+        jcReparacion.setEnabled(true);
+        jcServicio.setEnabled(true);
+        jdFecha.setEnabled(true);
+        txtUnidad.setEnabled(true);
+        jcMecanico.setEnabled(true);
+    }
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
                     String numero=txtServicio.getText();
                     
@@ -580,14 +591,18 @@ modeloCombo.addElement(ver.getString("completo"));
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
        if (btnEditar.getText().equals("Editar")){
         int fila=tabla.getSelectedRow();
-        
-       if (fila>0){
+       if (fila<0){
+                       JOptionPane.showMessageDialog(this, "Selecciona un elemento de la tabla");
+                 
+                            }
+       if (fila>=0){
           btnEditar.setText("Actualizar");
           btnGenerar.setEnabled(false);
           auxiliarOn();
+          activarPrincipal();
           String buscarProducto;
           buscarProducto = tabla.getValueAt(fila,1).toString();
-          
+           System.out.println (":D");
           try{
               Statement buscar=cn.createStatement();
               String sql=("SELECT * FROM servicio WHERE servicio='"+buscarProducto+"' and principal=1");
@@ -636,9 +651,55 @@ modeloCombo.addElement(ver.getString("completo"));
                Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, ex);
            }
        }
-       }else {
-           System.out.println ("Actualizamos");
-       }    
+       }else if (btnEditar.getText().equals("Actualizar")){
+           
+           try{
+            String sql="DELETE FROM servicio WHERE servicio='"+txtServicio.getText()+"' AND principal=1";
+            Statement st;
+            st=cn.createStatement();
+            st.executeUpdate(sql);
+           
+           }
+        catch (Exception ex){
+          JOptionPane.showMessageDialog(null,"no se pudo preparar la bd");
+        }
+          String numero=txtServicio.getText();
+                    String servicio=jcServicio.getSelectedItem().toString();
+                    String reparacion=jcReparacion.getSelectedItem().toString();
+                    String bahia=jcBahia.getSelectedItem().toString();
+                    String mecanico=jcMecanico.getSelectedItem().toString();
+                    Date fecha=jdFecha.getDate();
+                    SimpleDateFormat Date_Format = new SimpleDateFormat("yyyy-MM-dd"); 
+                    Date_Format.format(jdFecha.getDate());
+                    String unidad=txtUnidad.getText();
+                    String hora=jcHora.getSelectedItem().toString()+":"+jcMinuto.getSelectedItem().toString();
+                    
+                    try {
+                        String sql="INSERT INTO servicio (servicio,tipo_servicio,reparacion,mecanico,principal,unidad,fecha_entrega,hora_entrega,bahia) "+
+                                "VALUES (?,?,?,?,?,?,?,?,?)";
+                        PreparedStatement ps=cn.prepareStatement(sql);
+                        ps.setString(1,numero);
+                        ps.setString(2,servicio);
+                        ps.setString(3,reparacion);
+                        ps.setString(4,mecanico);
+                        ps.setBoolean(5,true);
+                        ps.setString(6,unidad);
+                        ps.setDate(7, new java.sql.Date(fecha.getTime()));
+                        ps.setString(8,hora);
+                        ps.setString(9,bahia);
+                        ps.executeUpdate();
+                        System.out.println ("integrado en la bd");
+                        auxiliarOn();
+                        mostrarTabla();
+                        desactivarPrincipal();
+                        btnGenerar.setEnabled(false);
+                        btnEditar.setText("Editar");
+                    } catch (SQLException e) {
+                         Logger.getLogger(generarEstado.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                    
+       }
+            
         
         
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -648,11 +709,11 @@ modeloCombo.addElement(ver.getString("completo"));
         jcAuxiliar.setEnabled(false);
     }
     private void mostrarTabla(){
-        String[] cabecera = {"Id", "Servicio", "Unidad", "Reparacion", "Mecanico","Bahia"};
-        String[] registros = new String[6];
+        String[] cabecera = {"Id", "Servicio", "Unidad", "Reparacion", "Mecanico","Bahia","Fecha"};
+        String[] registros = new String[7];
         String sql = "SELECT * FROM servicio WHERE servicio ='"+txtServicio.getText()+"'";
         //establecemos los anchos en pixeles de las columnas
-        int[] anchos = {0, 120, 120, 200, 300, 80};
+        int[] anchos = {0, 120, 120, 200, 250, 80,100};
 
         modelo = new DefaultTableModel(null, cabecera);
         try {
@@ -667,6 +728,7 @@ modeloCombo.addElement(ver.getString("completo"));
                 registros[3] = rs.getString("reparacion");
                 registros[4] = rs.getString("mecanico");
                 registros[5] = rs.getString("bahia");
+                registros[6] = rs.getString("fecha_entrega");
                 modelo.addRow(registros);
 
             }
