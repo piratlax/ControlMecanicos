@@ -39,10 +39,7 @@ public class generarEstado extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         llenaComboBox();
-        Utilerias util=new Utilerias();
-        //txtServicio.setText("170652");
-        mostrarTabla();
-        txtServicio.setText(util.darNumeroServicio());
+        
      
         //mostramos la hora
         Calendar calendario = Calendar.getInstance();
@@ -133,10 +130,9 @@ modeloCombo.addElement(ver.getString("completo"));
         tabla = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         btnEditar = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnBorrarElemento = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,7 +144,7 @@ modeloCombo.addElement(ver.getString("completo"));
 
         jLabel3.setText("Generar servicio:");
 
-        jcServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preventivo", "Predictivo", "Daño Operativo" }));
+        jcServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Correctivo", "Predictivo", "Daño Operativo" }));
 
         jLabel4.setText("Tipo de reparación");
 
@@ -217,9 +213,8 @@ modeloCombo.addElement(ver.getString("completo"));
                             .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtHora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jcServicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jcReparacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(jcServicio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jcReparacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -376,16 +371,24 @@ modeloCombo.addElement(ver.getString("completo"));
             }
         });
 
-        jButton4.setText("Borrar elemento");
-
-        jButton5.setText("Cancelar");
-
-        jButton6.setText("Generar servicio");
-
-        jButton7.setText("Regresar al menu principal");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrarElemento.setText("Borrar elemento");
+        btnBorrarElemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnBorrarElementoActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar Servicio");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnRegresar.setText("Regresar al menu principal");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -395,15 +398,13 @@ modeloCombo.addElement(ver.getString("completo"));
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5)
+                .addComponent(btnBorrarElemento)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(btnRegresar)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -412,10 +413,9 @@ modeloCombo.addElement(ver.getString("completo"));
                 .addGap(14, 14, 14)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(btnBorrarElemento)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnRegresar))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -449,11 +449,11 @@ modeloCombo.addElement(ver.getString("completo"));
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
        Principal frm=new Principal();
        frm.setVisible(true);
        this.dispose();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         txtUnidad.setText(txtUnidad.getText().toUpperCase());
@@ -482,6 +482,11 @@ modeloCombo.addElement(ver.getString("completo"));
         if (existeUnidad==false){
             JOptionPane.showMessageDialog(this, "La unidad no existe");
         }else{
+            
+        Utilerias util=new Utilerias();
+        
+        mostrarTabla();
+        txtServicio.setText(util.darNumeroServicio());
             //se inicia el proceso
             if (jcPreventivo.getSelectedItem().equals("Ninguno")){
                 String formato=jdFecha.getDateFormatString();
@@ -703,6 +708,67 @@ modeloCombo.addElement(ver.getString("completo"));
         
         
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnBorrarElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarElementoActionPerformed
+       //Borrado de un producto
+        
+          //editando un producto
+        int fila = tabla.getSelectedRow();
+        
+       if (fila>0){
+           try{
+            String sql="DELETE FROM servicio WHERE id="+tabla.getValueAt(fila,0);
+            Statement st;
+            st=cn.createStatement();
+            st.executeUpdate(sql);
+            mostrarTabla();
+            JOptionPane.showMessageDialog(null,"Auxiliar removido");
+          
+            st.close();
+            
+            
+        }
+        catch (Exception ex){
+          JOptionPane.showMessageDialog(null,"no se elimino el elemento");
+        }
+       }else {
+          JOptionPane.showMessageDialog(null,"Selecciona un auxiliar"); 
+       }
+    }//GEN-LAST:event_btnBorrarElementoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        String mensaje="Atencion se va a eliminar este servicio\nDeseas continuar?";
+                int respuesta=JOptionPane.showConfirmDialog(this, mensaje, "Atencion", 0);
+                
+                if (respuesta==0){
+        
+        try{
+            String sql="DELETE FROM servicio WHERE servicio='"+txtServicio.getText()+"'";
+            Statement st;
+            st=cn.createStatement();
+            st.executeUpdate(sql);
+            mostrarTabla();
+            JOptionPane.showMessageDialog(null,"Servicio eliminado");
+            
+            int reset=0;
+            st=cn.createStatement();
+            ResultSet rs=st.executeQuery("SELECT * FROM cod_serv");
+            while (rs.next()){
+                reset=Integer.valueOf(rs.getString("servicio"));
+            }
+            reset--;
+            st=cn.createStatement();
+            st.executeUpdate("UPDATE cod_serv set servicio='"+reset+"'");
+            
+            Principal frm=new Principal();
+            frm.setVisible(true);
+            this.dispose();
+        }
+        catch (Exception ex){
+          JOptionPane.showMessageDialog(null,"no se elimino el elemento");
+        }
+                }
+    }//GEN-LAST:event_btnCancelarActionPerformed
     private void auxiliarOff(){
         txtAuxiliar.setEnabled(false);
         btnAgregar.setEnabled(false);
@@ -711,7 +777,7 @@ modeloCombo.addElement(ver.getString("completo"));
     private void mostrarTabla(){
         String[] cabecera = {"Id", "Servicio", "Unidad", "Reparacion", "Mecanico","Bahia","Fecha"};
         String[] registros = new String[7];
-        String sql = "SELECT * FROM servicio WHERE servicio ='"+txtServicio.getText()+"'";
+        String sql = "SELECT * FROM servicio WHERE servicio ='"+txtServicio.getText()+"' ORDER BY principal DESC";
         //establecemos los anchos en pixeles de las columnas
         int[] anchos = {0, 120, 120, 200, 250, 80,100};
 
@@ -786,12 +852,11 @@ modeloCombo.addElement(ver.getString("completo"));
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBorrarElemento;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGenerar;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
